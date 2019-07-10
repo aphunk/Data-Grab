@@ -2,8 +2,6 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 const jsonframe = require('jsonframe-cheerio');
 
-
-
 const url = 'http://www.dreambible.com/dreamdictionary/a.html';
 
 axios.get(url)
