@@ -4,9 +4,8 @@ const jsonframe = require('jsonframe-cheerio');
 
 const BASE_URL = 'http://www.dreambible.com/dreamdictionary/';
 
-
-
 const getData = () => {
+  let listOfTerms = [];
   const alphabet = [
     "a",
     "a2",
@@ -86,73 +85,24 @@ const getData = () => {
 
   alphabet.forEach(function (page) {
     let url = BASE_URL + page + ".html";
+
     axios.get(url)
       .then((response) => {
         // console.log(response.data)
         let $ = cheerio.load(response.data);
         jsonframe($);
 
-        let listOfTerms = [];
-
         $('p').each(function (i, e) {
-          listOfTerms[i] = $(this).text();
+          if (i % 2 == 0) {
+            listOfTerms[i] = [$(this).text()];
+          } else {
+            listOfTerms[i - 1].push($(this).text());
+          }
         })
         listOfTerms.join('+')
-        // console.log(listOfTerms);
+        console.log(listOfTerms);
       });
-
   })
-
-
 }
 
 getData();
-
-// const frame = {
-//   "interpretations{
-//     "selector"div.text", //element to search in
-//     "data[{
-//       "term"b",
-//       "meaning"p"
-//     }]
-//   }
-// };
-
-// console.log(cheerio.text($(".main_content")))
-
-
-// const alphabet = {
-  //   "a4,
-  //   "b6,
-  //   "c7,
-  //   "d3,
-  //   "e2,
-  //   "f3,
-  //   "g3,
-  //   "h3,
-  //   "i2,
-  //   "j1,
-  //   "k1,
-  //   "l3,
-  //   "m4,
-  //   "n2,
-  //   "o2,
-  //   "p5,
-  //   "q1,
-  //   "r3,
-  //   "s8,
-  //   "t4,
-  //   "u1,
-  //   "v1,
-  //   "w2,
-  //   "x1,
-  //   "y1,
-  //   "z1
-  // };
-  // let i = 1;
-  // Object.keys(alphabet).forEach(letter => {
-  //   let pageNum = alphabet[letter];
-  //   if (pageNum === 1) {
-
-  //   }
-  // })
