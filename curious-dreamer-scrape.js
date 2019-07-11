@@ -6,7 +6,7 @@ const BASE_URL = 'http://www.thecuriousdreamer.com/dreamdictionary/symbol/'
 // const url = 'http://www.thecuriousdreamer.com/dreamdictionary/symbol/2390'
 
 let i = 0;
-while (i < 20) {
+while (i < 10) {
   let url = BASE_URL + i;
 
   axios.get(url)
@@ -18,11 +18,13 @@ while (i < 20) {
 
       $('.span7').each(function (i, e) {
         words[i] = {
-          "word": $(this).find('.term').text().trim(),
-          "meaning": $(this).find('.span4').text().trim(),
+          "word": $(this).find('.term, .row').text().trim(),
+          "meaning": $(this).find('.span4, .definition').text().trim(),
+          "additional_meanings": $(this).find('li').text().trim(),
         }
       })
       console.log(words)
     })
   i++;
 }
+
