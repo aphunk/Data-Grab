@@ -99,7 +99,7 @@ const getData = () => {
             listOfTerms[i - 1].push($(this).text());
           }
         })
-        listOfTerms.join('+')
+        // listOfTerms.join('+')
         console.log(listOfTerms);
       });
   })
