@@ -19,8 +19,8 @@ while (i < 10) {
       $('.span7').each(function (i, e) {
         words[i] = {
           "word": $(this).find('.term, .row').text().trim(),
-          "meaning": $(this).find('.span4, .definition').text().trim(),
-          "additional_meanings": $(this).find('li').text().trim(),
+          "meaning": $(this).find('.span4, .definition').text().replace(':', ': '),
+          // "additional_meanings": $(this).find('ul').text()
         }
       })
       console.log(words)
@@ -28,3 +28,6 @@ while (i < 10) {
   i++;
 }
 
+// ($(this).find('li')).forEach(function (li) {
+//   console.log(li);
+// })
