@@ -1,108 +1,37 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
-const jsonframe = require('jsonframe-cheerio');
+const request = require('request')
 
-const BASE_URL = 'http://www.dreambible.com/dreamdictionary/';
+function getData(id) {
+  const BASE_URL = 'http://www.thecuriousdreamer.com/dreamdictionary/symbol/'
 
-const getData = () => {
-  let listOfTerms = [];
-  const alphabet = [
-    "a",
-    "a2",
-    "a3",
-    "a4",
-    "b",
-    "b2",
-    "b3",
-    "b4",
-    "b5",
-    "b6",
-    "c",
-    "c2",
-    "c3",
-    "c4",
-    "c5",
-    "c6",
-    "c7",
-    "d",
-    "d2",
-    "d3",
-    "e",
-    "e2",
-    "f",
-    "f2",
-    "f3",
-    "g",
-    "g2",
-    "g3",
-    "h",
-    "h2",
-    "h3",
-    "i",
-    "i2",
-    "j",
-    "k",
-    "l",
-    "l2",
-    "l3",
-    "m",
-    "m2",
-    "m3",
-    "m4",
-    "n",
-    "n2",
-    "o",
-    "o2",
-    "p",
-    "p2",
-    "p3",
-    "p4",
-    "p5",
-    "q",
-    "r",
-    "r2",
-    "r3",
-    "s",
-    "s2",
-    "s3",
-    "s4",
-    "s5",
-    "s6",
-    "s7",
-    "s8",
-    "t",
-    "t2",
-    "t3",
-    "t4",
-    "u",
-    "v",
-    "w",
-    "w2",
-    "x",
-    "y",
-    "z"
-  ];
+  // let i = 0;
+  // while (i < 25) {
+  //   let url = BASE_URL + i;
 
-  alphabet.forEach(function (page) {
-    let url = BASE_URL + page + ".html";
+  let url = BASE_URL + 28;
 
-    axios.get(url)
-      .then((response) => {
-        // console.log(response.data)
-        let $ = cheerio.load(response.data);
-        jsonframe($);
+  request(url,
+    (error, response, data) => {
+      const $ = cheerio.load(data);
+      let terms = [];
+      let i = 0;
+      while (i < 25) {
+        try {
+          terms.push({
+            word: $("div.term").text().trim()
+          });
+          i++;
+          console.log(terms)
+        } catch (e) {
+          i++;
+        }
+      }
 
-        $('p').each(function (i, e) {
-          if (i % 2 == 0) {
-            listOfTerms[i] = [$(this).text()];
-          } else {
-            listOfTerms[i - 1].push($(this).text());
-          }
-        })
-        // listOfTerms.join('+')
-        console.log(listOfTerms);
-      });
-  })
+      // callback(null, { terms });
+    });
+
 }
 
-getData();
+const data = getData();
+console.log(data);
